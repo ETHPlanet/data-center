@@ -1,0 +1,33 @@
+name: Deploy Server
+on:
+  push:
+    branches:
+      - master
+jobs:
+  SSH:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Clean
+        run: |
+          rm -rf .git/ .gitignore .github/ .editorconfig .eslint*
+      - name: Transport
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: ./
+          remote: ${{ secrets.PATH }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          privateKey: ${{ secrets.SSH_KEY }}
+      - name: Deploy
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          privateKey: ${{ secrets.SSH_KEY }}
+          command: |
+            cd ${{ secrets.PATH }}
+            echo BASE_URL=${{ secrets.BASE_URL }} > .env
+            docker-compose down
+            docker-compose up -d

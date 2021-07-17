@@ -1,0 +1,67 @@
+{
+  "kind": "collectionType",
+  "collectionName": "places",
+  "info": {
+    "name": "Place",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "minLength": 4
+    },
+    "capacity": {
+      "type": "integer",
+      "required": true,
+      "min": 0
+    },
+    "indoor": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "available_times": {
+      "type": "component",
+      "repeatable": true,
+      "component": "date.period",
+      "required": true
+    },
+    "contacts": {
+      "plugin": "users-permissions",
+      "collection": "user"
+    },
+    "owner": {
+      "model": "organization"
+    },
+    "equipments": {
+      "type": "component",
+      "repeatable": true,
+      "component": "supplies.goods"
+    },
+    "films": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": true,
+      "pluginOptions": {}
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "location.address",
+      "required": true
+    }
+  }
+}
