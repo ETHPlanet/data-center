@@ -1,4 +1,4 @@
-# OrgServer
+# ETH Planet - data server
 
 **Data Server** scaffold for all kinds of **Organizations**, built on [Strapi][1]
 with the **Operation Experience** of [freeCodeCamp ChengDu community][2] & [KaiYuanShe][3].
